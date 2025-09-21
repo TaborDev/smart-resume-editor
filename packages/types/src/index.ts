@@ -92,3 +92,44 @@ export interface OptimizationResponse {
     impact: number;
   };
 }
+
+// Job Detection Types
+export type JobSite = 
+  | 'linkedin' 
+  | 'greenhouse' 
+  | 'lever' 
+  | 'workday' 
+  | 'indeed' 
+  | 'glassdoor' 
+  | 'monster' 
+  | 'ziprecruiter' 
+  | 'simplyhired' 
+  | 'careerbuilder'
+  | 'unknown';
+
+export interface JobInfo {
+  url: string;
+  siteName: JobSite;
+  jobTitle: string;
+  companyName: string;
+  jobDescription: string;
+  requirements: string[];
+  extractedAt: string;
+  skills?: string[];
+  salaryRange?: string;
+  location?: string;
+  jobType?: 'full-time' | 'part-time' | 'contract' | 'internship';
+}
+
+export interface JobDetectionResult {
+  detected: boolean;
+  jobInfo?: JobInfo;
+  confidence: number;
+  errors?: string[];
+}
+
+export interface ContentScriptMessage {
+  type: 'JOB_DETECTED' | 'OPEN_SIDE_PANEL' | 'ERROR';
+  data?: any;
+  error?: string;
+}

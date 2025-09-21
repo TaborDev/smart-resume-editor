@@ -33,7 +33,7 @@
   ],
 
   "background": {
-    "service_worker": "background.js",
+    "service_worker": "service-worker.js",
     "type": "module"
   },
 
@@ -72,22 +72,17 @@
     "default_popup": "popup/index.html",
     "default_title": "Smart Resume Editor",
     "default_icon": {
-      "16": "icons/icon-16.png",
-      "32": "icons/icon-32.png",
-      "48": "icons/icon-48.png",
-      "128": "icons/icon-128.png"
+      "16": "icons/icon16.svg",
+      "32": "icons/icon32.svg",
+      "48": "icons/icon48.svg",
+      "128": "icons/icon128.svg"
     }
   },
 
   "web_accessible_resources": [
     {
       "resources": [
-        "latex-editor/*",
-        "templates/*",
-        "fonts/*",
-        "icons/*",
-        "floating-button.html",
-        "job-overlay.html"
+        "icons/*"
       ],
       "matches": [
         "*://*.linkedin.com/*",
@@ -112,10 +107,10 @@
   ],
 
   "icons": {
-    "16": "icons/icon-16.png",
-    "32": "icons/icon-32.png",
-    "48": "icons/icon-48.png",
-    "128": "icons/icon-128.png"
+    "16": "icons/icon16.svg",
+    "32": "icons/icon32.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
   },
 
   "content_security_policy": {
