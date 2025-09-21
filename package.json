@@ -1,0 +1,50 @@
+{
+  "name": "smart-resume-editor",
+  "version": "1.0.0",
+  "description": "Real-time resume editing during job applications with AI-powered optimization",
+  "private": true,
+  "workspaces": [
+    "chrome-extension",
+    "backend",
+    "webapp",
+    "packages/*"
+  ],
+  "packageManager": "pnpm@8.10.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "test:e2e": "pnpm --filter webapp test:e2e",
+    "test:integration": "pnpm --filter backend test:integration",
+    "lint": "pnpm -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "format": "prettier --write .",
+    "type-check": "pnpm -r type-check",
+    "clean": "pnpm -r clean && rm -rf node_modules",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "deploy:staging": "pnpm build && docker-compose -f docker-compose.staging.yml up -d",
+    "deploy:prod": "pnpm build && docker-compose -f docker-compose.prod.yml up -d"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "prettier": "^3.1.0",
+    "typescript": "^5.3.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+packages:
+  - 'chrome-extension'
+  - 'backend'
+  - 'webapp'
+  - 'packages/*'

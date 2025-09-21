@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: smart-resume-postgres
+    environment:
+      POSTGRES_DB: smart_resume
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - smart-resume-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: smart-resume-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - smart-resume-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: smart-resume-backend
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/smart_resume
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-jwt-secret
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - smart-resume-network
+    command: pnpm dev
+
+  webapp:
+    build:
+      context: .
+      dockerfile: webapp/Dockerfile
+    container_name: smart-resume-webapp
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_URL=http://localhost:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./webapp:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - smart-resume-network
+    command: pnpm dev
+
+  texlive:
+    build:
+      context: ./backend/texlive
+      dockerfile: Dockerfile
+    container_name: smart-resume-texlive
+    ports:
+      - "3002:3002"
+    volumes:
+      - texlive_cache:/app/cache
+    networks:
+      - smart-resume-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  texlive_cache:
+
+networks:
+  smart-resume-network:
+    driver: bridge

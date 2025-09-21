@@ -1,0 +1,124 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Resume Editor",
+  "version": "1.0.0",
+  "description": "Real-time resume editing during job applications with AI-powered optimization",
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "clipboardWrite",
+    "contextMenus",
+    "sidePanel"
+  ],
+
+  "host_permissions": [
+    "*://*.linkedin.com/*",
+    "*://*.greenhouse.io/*",
+    "*://*.lever.co/*",
+    "*://*.myworkdayjobs.com/*",
+    "*://*.workday.com/*",
+    "*://*.indeed.com/*",
+    "*://*.glassdoor.com/*",
+    "*://*.monster.com/*",
+    "*://*.ziprecruiter.com/*",
+    "*://*.simplyhired.com/*",
+    "*://*.careerbuilder.com/*",
+    "*://*.jobs.com/*",
+    "*://*.usajobs.gov/*",
+    "*://*.dice.com/*",
+    "*://*.stackoverflow.com/*",
+    "*://*.angel.co/*",
+    "*://*.wellfound.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.greenhouse.io/*",
+        "*://*.lever.co/*",
+        "*://*.myworkdayjobs.com/*",
+        "*://*.workday.com/*",
+        "*://*.indeed.com/*",
+        "*://*.glassdoor.com/*",
+        "*://*.monster.com/*",
+        "*://*.ziprecruiter.com/*",
+        "*://*.simplyhired.com/*",
+        "*://*.careerbuilder.com/*",
+        "*://*.jobs.com/*",
+        "*://*.usajobs.gov/*",
+        "*://*.dice.com/*",
+        "*://*.stackoverflow.com/*",
+        "*://*.angel.co/*",
+        "*://*.wellfound.com/*"
+      ],
+      "js": ["content-script.js"],
+      "css": ["content-styles.css"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "side_panel": {
+    "default_path": "sidebar/index.html"
+  },
+
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "Smart Resume Editor",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "latex-editor/*",
+        "templates/*",
+        "fonts/*",
+        "icons/*",
+        "floating-button.html",
+        "job-overlay.html"
+      ],
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.greenhouse.io/*",
+        "*://*.lever.co/*",
+        "*://*.myworkdayjobs.com/*",
+        "*://*.workday.com/*",
+        "*://*.indeed.com/*",
+        "*://*.glassdoor.com/*",
+        "*://*.monster.com/*",
+        "*://*.ziprecruiter.com/*",
+        "*://*.simplyhired.com/*",
+        "*://*.careerbuilder.com/*",
+        "*://*.jobs.com/*",
+        "*://*.usajobs.gov/*",
+        "*://*.dice.com/*",
+        "*://*.stackoverflow.com/*",
+        "*://*.angel.co/*",
+        "*://*.wellfound.com/*"
+      ]
+    }
+  ],
+
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'; style-src 'self' 'unsafe-inline';"
+  }
+}

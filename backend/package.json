@@ -1,0 +1,38 @@
+{
+  "name": "@smart-resume/backend",
+  "version": "1.0.0",
+  "description": "Backend API for Smart Resume Editor",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
+    "test:integration": "jest --config jest.integration.config.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@smart-resume/types": "workspace:*",
+    "@smart-resume/utils": "workspace:*",
+    "fastify": "^4.24.3",
+    "@fastify/cors": "^8.4.0",
+    "@fastify/jwt": "^7.2.4",
+    "@fastify/redis": "^6.1.1",
+    "@prisma/client": "^5.6.0",
+    "openai": "^4.20.1",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "tsx": "^4.6.0",
+    "prisma": "^5.6.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.8",
+    "@types/bcryptjs": "^2.4.6"
+  }
+}
