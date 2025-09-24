@@ -20,27 +20,36 @@ const JOB_SITE_CONFIGS: JobSiteConfig[] = [
       uploadInputs: [
         'input[type="file"][accept*="pdf"]',
         'input[name*="resume"]',
-        'input[name*="cv"]'
+        'input[name*="cv"]',
+        'input[data-test-file-upload-input]',
+        'input[data-automation-id*="file"]'
       ],
-      uploadKeywords: ['Upload resume', 'Upload CV', 'Choose file', 'Attach resume'],
+      uploadKeywords: ['Upload resume', 'Upload CV', 'Choose file', 'Attach resume', 'Add resume', 'Resume/CV'],
       jobTitle: [
+        'h1.job-details-jobs-unified-top-card__job-title',
+        'h1.jobs-unified-top-card__job-title',
         'h1[data-automation-id="jobPostingHeader"]',
-        '.job-details-jobs-unified-top-card__job-title',
-        '.t-24.t-bold'
+        '.t-24.t-bold.inline',
+        '.job-details-jobs-unified-top-card__job-title a'
       ],
       companyName: [
-        '.job-details-jobs-unified-top-card__company-name',
-        '.jobs-unified-top-card__company-name',
-        'a[data-control-name="job_details_topcard_company_url"]'
+        '.job-details-jobs-unified-top-card__company-name a',
+        '.jobs-unified-top-card__company-name a',
+        'a[data-control-name="job_details_topcard_company_url"]',
+        '.job-details-jobs-unified-top-card__primary-description a'
       ],
       jobDescription: [
         '.jobs-description-content__text',
         '.jobs-box__html-content',
-        '#job-details'
+        '.jobs-description__content',
+        '#job-details',
+        '[data-automation-id="jobPostingDescription"]'
       ],
       requirements: [
         '.jobs-description-content__text ul',
-        '.jobs-description-content__text li'
+        '.jobs-description-content__text li',
+        '.jobs-description__content ul',
+        '.jobs-description__content li'
       ]
     },
     urlPatterns: [/linkedin\.com\/jobs/, /linkedin\.com.*currentJobId/]
