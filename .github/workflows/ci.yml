@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, feature/develop]
   pull_request:
     branches: [main, develop]
 
@@ -51,15 +51,18 @@ jobs:
       
       - name: Type check
         run: pnpm type-check
+        continue-on-error: false
       
       - name: Lint
         run: pnpm lint
+        continue-on-error: false
       
       - name: Run tests
         run: pnpm test
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/smart_resume_test
           REDIS_URL: redis://localhost:6379
+        continue-on-error: false
       
       - name: Build all packages
         run: pnpm build
@@ -81,14 +84,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
+      - name: Build webapp for testing
+        run: pnpm --filter webapp build
+      
       - name: Install Playwright browsers
-        run: pnpm --filter webapp exec playwright install
+        run: pnpm --filter webapp exec playwright install --with-deps
       
       - name: Run E2E tests
         run: pnpm test:e2e
+        continue-on-error: false
 
   deploy-staging:
-    if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/feature/develop'
     needs: [test, e2e]
     runs-on: ubuntu-latest
     steps:
@@ -97,4 +104,5 @@ jobs:
       - name: Deploy to staging
         run: |
           echo "Deploying to staging environment"
+          echo "Branch: ${{ github.ref }}"
           # Add actual deployment commands here

@@ -6,7 +6,9 @@
     "dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "clean": "rm -rf dist",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "echo \"No tests configured for chrome-extension\"",
+    "lint": "echo \"No linting configured for chrome-extension\""
   },
   "dependencies": {
     "@smart-resume/types": "workspace:*",
