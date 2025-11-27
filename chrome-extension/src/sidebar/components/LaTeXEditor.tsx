@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-export const LaTeXEditor: React.FC = () => {
-  const [latexCode, setLatexCode] = useState(`\\documentclass{article}
+const DEFAULT_LATEX = `\\documentclass{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage{geometry}
 \\geometry{a4paper, margin=1in}
@@ -20,20 +19,29 @@ LinkedIn Profile | Portfolio URL
 Write a compelling professional summary here...
 
 \\section*{Experience}
-\\textbf{Job Title} - Company Name \\hfill Date Range \\\\
+\\textbf{Job Title} - Company Name \\\\hfill Date Range \\\\
 \\begin{itemize}
     \\item Achievement or responsibility with quantifiable results
     \\item Another key accomplishment
 \\end{itemize}
 
 \\section*{Education}
-\\textbf{Degree} - University Name \\hfill Graduation Date
+\\textbf{Degree} - University Name \\\\hfill Graduation Date
 
 \\section*{Skills}
 Technical Skills, Programming Languages, Tools, etc.
 
-\\end{document}`);
+\\end{document}`;
 
+interface LaTeXEditorProps {
+  latexCode?: string;
+  setLatexCode: (code: string) => void;
+}
+
+export const LaTeXEditor: React.FC<LaTeXEditorProps> = ({ 
+  latexCode = DEFAULT_LATEX, 
+  setLatexCode 
+}) => {
   const [isCompiling, setIsCompiling] = useState(false);
 
   const compileLatex = async () => {
@@ -63,12 +71,12 @@ Technical Skills, Programming Languages, Tools, etc.
   const insertTemplate = (template: string) => {
     const templates = {
       section: '\\section*{Section Title}\nContent here...\n\n',
-      experience: '\\textbf{Job Title} - Company Name \\hfill Date Range \\\\\n\\begin{itemize}\n    \\item Achievement or responsibility\n\\end{itemize}\n\n',
-      education: '\\textbf{Degree} - University Name \\hfill Graduation Date\n\n'
+      experience: '\\textbf{Job Title} - Company Name \\\\hfill Date Range \\\\\n\\begin{itemize}\n    \\item Achievement or responsibility\n\\end{itemize}\n\n',
+      education: '\\textbf{Degree} - University Name \\\\hfill Graduation Date\n\n'
     };
     
     const templateText = templates[template as keyof typeof templates] || '';
-    setLatexCode(prev => prev + templateText);
+    setLatexCode(latexCode + templateText);
   };
 
   return (
@@ -117,10 +125,10 @@ Technical Skills, Programming Languages, Tools, etc.
       <div className="editor-help">
         <h4>Quick Tips:</h4>
         <ul>
-          <li><code>\\textbf{'{text}'}</code> - Bold text</li>
-          <li><code>\\textit{'{text}'}</code> - Italic text</li>
-          <li><code>\\begin{'{itemize}'} \\item Text \\end{'{itemize}'}</code> - Bullet points</li>
-          <li><code>\\hfill</code> - Right align (for dates)</li>
+          <li><code>\\\\textbf{'{text}'}</code> - Bold text</li>
+          <li><code>\\\\textit{'{text}'}</code> - Italic text</li>
+          <li><code>\\\\begin{'{itemize}'} \\\\item Text \\\\end{'{itemize}'}</code> - Bullet points</li>
+          <li><code>\\\\hfill</code> - Right align (for dates)</li>
         </ul>
       </div>
     </div>

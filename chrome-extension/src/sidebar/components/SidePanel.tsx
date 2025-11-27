@@ -9,6 +9,7 @@ export const SidePanel: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<'analysis' | 'suggestions' | 'editor'>('analysis');
   const [isLoading, setIsLoading] = useState(false);
   const [currentUrl, setCurrentUrl] = useState<string>('');
+  const [latexContent, setLatexContent] = useState('');
 
   useEffect(() => {
     // Get the current tab URL
@@ -64,7 +65,10 @@ export const SidePanel: React.FC = () => {
               )}
               
               {currentTab === 'editor' && (
-                <LaTeXEditor />
+                <LaTeXEditor 
+                  latexCode={latexContent}
+                  setLatexCode={setLatexContent}
+                />
               )}
             </>
           )}

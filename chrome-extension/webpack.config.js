@@ -11,7 +11,7 @@ module.exports = {
     popup: './src/popup/index.tsx',
     sidebar: './src/sidebar/index.tsx',
     'content-script': './src/content-scripts/content-script.ts',
-    'service-worker': './src/background/service-worker.ts'
+    'background': './src/background/background.js'
   },
   
   output: {
