@@ -133,11 +133,11 @@ function getResumeData(sendResponse: (response: any) => void): void {
 function analyzeJobMatch(jobData: any, resumeData: any, sendResponse: (response: any) => void): void {
   // Simple job matching logic
   const jobSkills = new Set(
-    (jobData.skills || []).map((skill: string) => skill.toLowerCase())
+    ((jobData.skills || []) as string[]).map((skill) => skill.toLowerCase())
   );
   
   const resumeSkills = new Set(
-    (resumeData.skills || []).map((skill: string) => skill.toLowerCase())
+    ((resumeData.skills || []) as string[]).map((skill) => skill.toLowerCase())
   );
   
   const matchingSkills: string[] = [];
@@ -205,8 +205,8 @@ function generateRecommendations(missingSkills: string[], jobData: any): Array<{
 }
 
 // Export for testing purposes
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
+if (typeof (globalThis as any).module !== 'undefined' && (globalThis as any).module.exports) {
+  (globalThis as any).module.exports = {
     updateActionIcon,
     isJobSiteUrl,
     openSidePanel,
