@@ -133,14 +133,14 @@ Technical Skills, Programming Languages, Tools, etc.
             LaTeX Editor
           </button>
         </div>
-
+        
         <div className="tab-content">
           {activeTab === 'analysis' && <JobAnalysisPanel currentUrl={currentUrl} />}
           {activeTab === 'suggestions' && <AISuggestionsPanel />}
           {activeTab === 'editor' && (
             <LaTeXEditor 
-              latexCode={latexContent}
-              setLatexCode={setLatexContent}
+              latexCode={latexContent} 
+              setLatexCode={setLatexContent} 
             />
           )}
         </div>

@@ -16,12 +16,7 @@ export const SidePanel: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="side-panel">
-        <div className="side-panel-header">
-          <h1 className="side-panel-title">Smart Resume Editor</h1>
-        </div>
-        <ResumeEditor currentUrl={currentUrl} />
-      </div>
+      <ResumeEditor currentUrl={currentUrl} />
     </ErrorBoundary>
   );
 };
