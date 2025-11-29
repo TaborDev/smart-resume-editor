@@ -52,10 +52,23 @@ Technical Skills, Programming Languages, Tools, etc.
               <!DOCTYPE html>
               <html>
                 <head>
-                  <script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-chtml-full.js"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.min.js"></script>
+                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/latex.js/dist/latex.css">
                   <style>
-                    body { margin: 20px; font-family: Arial, sans-serif; }
-                    .resume { max-width: 8.5in; margin: 0 auto; }
+                    body { 
+                      margin: 0;
+                      padding: 20px;
+                      font-family: 'Latin Modern', 'Times New Roman', serif;
+                      line-height: 1.6;
+                      font-size: 12pt;
+                    }
+                    .resume {
+                      max-width: 8.5in;
+                      margin: 0 auto;
+                      padding: 1in;
+                      background: white;
+                      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    }
                     .preview-placeholder {
                       display: flex;
                       align-items: center;
@@ -64,29 +77,36 @@ Technical Skills, Programming Languages, Tools, etc.
                       color: #666;
                       font-style: italic;
                     }
+                    @page { size: A4; margin: 0; }
                   </style>
                 </head>
                 <body>
                   <div class="resume">
-                    ${latexContent ? 
-                      `$$${latexContent}$$
-                      <script>
-                        MathJax = {
-                          tex: {
-                            inlineMath: [['$', '$']],
-                            displayMath: [['$$', '$$']]
-                          },
-                          chtml: { displayAlign: 'left' }
-                        };
-                      </script>` : 
-                      '<div class="preview-placeholder">Your resume preview will appear here</div>'
-                    }
+                    ${latexContent || '<div class="preview-placeholder">Your resume preview will appear here</div>'}
                   </div>
+                  ${latexContent ? `
+                    <script>
+                      try {
+                        const options = {
+                          format: 'LaTeX',
+                          lineWidth: 500
+                        };
+                        const latex = new latexjs.LaTeX().parse('${latexContent.replace(/\n/g, '\\n').replace(/'/g, "\\'")}');
+                        document.querySelector('.resume').innerHTML = '';
+                        latex.render(document.querySelector('.resume'));
+                      } catch (e) {
+                        console.error('Error rendering LaTeX:', e);
+                        document.querySelector('.resume').innerHTML = 
+                          '<div style="color: red; padding: 20px;">Error rendering LaTeX. Please check your syntax.</div>';
+                      }
+                    </script>` : ''
+                  }
                 </body>
               </html>
             `}
             title="Resume Preview"
             className="preview-iframe"
+            style={{ width: '100%', height: '100%', border: 'none' }}
           />
         </div>
       </div>

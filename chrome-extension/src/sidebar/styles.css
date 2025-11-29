@@ -41,6 +41,80 @@ body {
   flex-direction: column;
   background: var(--bg-primary);
   box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Resume Editor Layout */
+.resume-editor {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.resume-preview {
+  flex: 1;
+  padding: 1rem;
+  background: #f5f5f5;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-container {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+}
+
+.preview-iframe {
+  flex: 1;
+  border: none;
+  background: white;
+}
+
+.editor-tabs {
+  width: 400px;
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.tab-buttons {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.tab-button {
+  padding: 0.75rem 1.25rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.tab-button:hover {
+  color: var(--primary-color);
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.tab-button.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  background: var(--bg-primary);
+}
+
+.tab-content {
+  flex: 1;
+  overflow: auto;
+  padding: 1.25rem;
 }
 
 .side-panel-header {
