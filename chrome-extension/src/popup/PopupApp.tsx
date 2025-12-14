@@ -2,10 +2,33 @@ import React from 'react';
 
 export const PopupApp: React.FC = () => {
   const handleOpenEditor = () => {
-    // Open the side panel
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs: chrome.tabs.Tab[]) => {
-      if (tabs[0]?.id) {
-        chrome.sidePanel.open({ tabId: tabs[0].id });
+    // Send message to content script to open the overlay on the current page
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs: chrome.tabs.Tab[]) => {
+      const currentTab = tabs[0];
+      if (currentTab?.id) {
+        try {
+          // First, try to inject the content script (in case it's not loaded)
+          await chrome.scripting.executeScript({
+            target: { tabId: currentTab.id },
+            files: ['content-script.js']
+          });
+        } catch (e) {
+          // Script might already be injected, that's fine
+          console.log('Content script may already be injected');
+        }
+
+        // Now send the message to open overlay
+        setTimeout(() => {
+          chrome.tabs.sendMessage(currentTab.id!, { action: 'openOverlay' }, (response) => {
+            if (chrome.runtime.lastError) {
+              console.error('Failed to open overlay:', chrome.runtime.lastError);
+              alert('Please refresh the page and try again.');
+            } else {
+              // Close the popup after opening the overlay
+              window.close();
+            }
+          });
+        }, 100);
       }
     });
   };

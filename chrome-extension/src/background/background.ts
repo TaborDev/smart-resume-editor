@@ -33,9 +33,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
       break;
       
-    case 'openSidePanel':
-      if (sender.tab?.id) {
-        openSidePanel(sender.tab.id);
+    case 'openEditor':
+      if (sender.tab?.id && sender.tab?.url) {
+        openEditorTab(sender.tab.id, sender.tab.url);
       }
       break;
       
@@ -104,14 +104,10 @@ function isJobSiteUrl(url: string): boolean {
   return jobSites.some(site => url.includes(site));
 }
 
-function openSidePanel(tabId: number): void {
-  if (chrome.sidePanel) {
-    chrome.sidePanel.setOptions({
-      tabId,
-      path: 'sidebar/index.html',
-      enabled: true
-    });
-  }
+function openEditorTab(tabId: number, jobUrl: string): void {
+  const editorUrl = chrome.runtime.getURL('sidebar/index.html') + 
+    `?jobUrl=${encodeURIComponent(jobUrl)}&jobTabId=${tabId}`;
+  chrome.tabs.create({ url: editorUrl });
 }
 
 function saveResumeData(data: any): Promise<void> {
@@ -209,7 +205,7 @@ if (typeof (globalThis as any).module !== 'undefined' && (globalThis as any).mod
   (globalThis as any).module.exports = {
     updateActionIcon,
     isJobSiteUrl,
-    openSidePanel,
+    openEditorTab,
     saveResumeData,
     getResumeData,
     analyzeJobMatch,

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 interface JobAnalysisPanelProps {
   currentUrl: string;
+  jobTabId?: number;
 }
 
-export const JobAnalysisPanel: React.FC<JobAnalysisPanelProps> = ({ currentUrl }) => {
+export const JobAnalysisPanel: React.FC<JobAnalysisPanelProps> = ({ currentUrl, jobTabId }) => {
   const [isJobPage, setIsJobPage] = useState(false);
   const [jobData, setJobData] = useState<{
     title: string;
@@ -29,15 +30,20 @@ export const JobAnalysisPanel: React.FC<JobAnalysisPanelProps> = ({ currentUrl }
     setError(null);
 
     try {
-      // Get the active tab
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      let targetTabId = jobTabId;
+
+      if (!targetTabId) {
+        // Fallback: Get the active tab
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+        targetTabId = tab?.id;
+      }
       
-      if (!tab.id) {
-        throw new Error('Could not get active tab');
+      if (!targetTabId) {
+        throw new Error('Could not identify target tab');
       }
 
       // Send message to the content script to extract job data
-      const response = await chrome.tabs.sendMessage(tab.id, { 
+      const response = await chrome.tabs.sendMessage(targetTabId, { 
         action: 'extractJobData' 
       });
 
